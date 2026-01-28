@@ -17,4 +17,5 @@ class BookSpider(scrapy.Spider):
         next_page = response.css("li.next > a::attr(href)").get()        # this grabs the elements in li.next and the a child, but this isn't a URL but rather the path
         if next_page:
             next_page_url = response.urljoin(next_page)                  # so, here we have to join that path with our original URL
+            self.logger.info(f"Navigating to next page with URL {next_page_url}")
             yield scrapy.Request(url=next_page_url, callback=self.parse) # then we can finally yield to scrapy.Request with our new URL and using the same parse method
